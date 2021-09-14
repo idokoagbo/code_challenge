@@ -17,15 +17,13 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::resource('/users',UserController::class);
-Route::resource('/posts',PostController::class);
-Route::get('/post/delete/{post}', [PostController::class, 'destroy']);
+Route::get('/', [PostController::class, 'welcome']);
+Route::resource('/users',UserController::class)->middleware('auth');
+Route::resource('/posts',PostController::class)->middleware('auth');
+Route::get('/post/delete/{post}', [PostController::class, 'destroy'])->middleware(['auth','verified']);
 
 
-Auth::routes(['verified'=>true]);
+Auth::routes(['verify' => true]);
 
 Route::group(['middleware'=>['auth','verified']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');

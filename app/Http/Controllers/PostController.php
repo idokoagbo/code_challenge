@@ -13,6 +13,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         //
@@ -108,5 +109,11 @@ class PostController extends Controller
         $post->delete();
         
         return redirect()->back();
+    }
+    
+    public function welcome(){
+        $posts=Post::where('status','approved')->orderBy('created_at','DESC')->get();
+        
+        return view('welcome',compact('posts'));
     }
 }
