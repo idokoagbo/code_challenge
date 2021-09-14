@@ -35,6 +35,10 @@ class AdminController extends Controller
     
     public function dashboard(){
         
+        if(Auth::user() && Auth::user()->role != 'admin'){
+            abort('403');
+        }
+        
         $posts=Post::orderBy('id','DESC')->get();
         $members=User::orderBy('id','DESC')->get();
         
@@ -42,18 +46,32 @@ class AdminController extends Controller
     }
     
     public function members(){
+        
+        if(Auth::user() && Auth::user()->role != 'admin'){
+            abort('403');
+        }
+        
         $members=User::orderBy('id','DESC')->get();
         
         return view('admin.users',compact('members'));
     }
     
     public function posts(){
+        
+        if(Auth::user() && Auth::user()->role != 'admin'){
+            abort('403');
+        }
+        
         $posts=Post::orderBy('id','DESC')->get();
         
         return view('admin.posts',compact('posts'));
     }
     
     public function userUpdate(User $user){
+        
+        if(Auth::user() && Auth::user()->role != 'admin'){
+            abort('403');
+        }
         
         $user->email_verified_at=Carbon::now();
         
@@ -63,6 +81,10 @@ class AdminController extends Controller
     }
     
     public function postUpdate(Post $post, $status){
+        
+        if(Auth::user() && Auth::user()->role != 'admin'){
+            abort('403');
+        }
         
         if($status=='approve'){
             $post->status='approved';
