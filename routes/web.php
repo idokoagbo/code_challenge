@@ -17,7 +17,7 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', [PostController::class, 'welcome']);
+Route::get('/', [PostController::class, 'welcome'])->middleware(['auth','verified']);;
 Route::resource('/users',UserController::class)->middleware('auth');
 Route::resource('/posts',PostController::class)->middleware('auth');
 Route::get('/post/delete/{post}', [PostController::class, 'destroy'])->middleware(['auth','verified']);
